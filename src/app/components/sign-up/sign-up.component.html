@@ -1,6 +1,12 @@
 <div class="flex justify-center items-center min-h-screen bg-gray-100">
   <div class="w-full max-w-md bg-white rounded-lg shadow-md p-6">
 
+    <div *ngIf="spinner" class="flex justify-center mb-4">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
     <div class="flex justify-center">
       <img src="../../../assets/logo.png" alt="Logo" class="h-16 mb-6">
     </div>
@@ -9,7 +15,6 @@
 
     <form [formGroup]="signUpForm" (ngSubmit)="onFormSubmit()">
 
-      <!-- Nome -->
       <div class="mb-4">
         <label for="nome" class="block text-sm font-medium text-gray-700">Nome</label>
         <input id="nome" type="text" formControlName="name"
@@ -19,7 +24,6 @@
         </div>
       </div>
 
-      <!-- Email -->
       <div class="mb-4">
         <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
         <input id="email" type="email" formControlName="email"
@@ -29,7 +33,6 @@
         </div>
       </div>
 
-      <!-- Senha -->
       <div class="mb-4">
         <label for="senha" class="block text-sm font-medium text-gray-700">Senha</label>
         <input id="senha" type="password" formControlName="password"
@@ -40,7 +43,6 @@
         </div>
       </div>
 
-      <!-- Confirmar Senha -->
       <div class="mb-4">
         <label for="confirmarSenha" class="block text-sm font-medium text-gray-700">Confirmar Senha</label>
         <input id="confirmarSenha" type="password" formControlName="confirmPassword"
@@ -51,13 +53,11 @@
         </div>
       </div>
 
-      <!-- Botão de Cadastro -->
       <button type="submit" [disabled]="signUpForm.invalid"
         class="w-full bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed">
         Cadastrar
       </button>
 
-      <!-- Link para a página de login -->
       <div class="text-center mt-4">
         <a routerLink="/login" class="text-sm text-indigo-600 hover:text-indigo-500">Já tem uma conta?</a>
       </div>
