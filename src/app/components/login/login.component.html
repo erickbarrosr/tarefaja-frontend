@@ -1,6 +1,12 @@
 <div class="flex justify-center items-center min-h-screen bg-gray-100">
   <div class="w-full max-w-md bg-white rounded-lg shadow-md p-6">
 
+    <div *ngIf="spinner" class="flex justify-center mb-4">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
     <div class="flex justify-center">
       <img src="../../../assets/logo.png" alt="Logo" class="h-16 mb-6">
     </div>
@@ -9,7 +15,6 @@
 
     <form [formGroup]="loginForm" (ngSubmit)="onFormSubmit()">
 
-      <!-- Email -->
       <div class="mb-4">
         <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
         <input id="email" type="email" formControlName="email"
@@ -19,7 +24,6 @@
         </div>
       </div>
 
-      <!-- Senha -->
       <div class="mb-4">
         <label for="senha" class="block text-sm font-medium text-gray-700">Senha</label>
         <input id="senha" type="password" formControlName="password"
@@ -30,13 +34,11 @@
         </div>
       </div>
 
-      <!-- Botão de Login -->
       <button type="submit" [disabled]="loginForm.invalid"
         class="w-full bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed">
         Entrar
       </button>
 
-      <!-- Link para a página de cadastro -->
       <div class="text-center mt-4">
         <a routerLink="/sign-up" class="text-sm text-indigo-600 hover:text-indigo-500">Não tem uma conta?</a>
       </div>
