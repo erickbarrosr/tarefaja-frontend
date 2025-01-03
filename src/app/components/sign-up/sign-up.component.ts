@@ -1,3 +1,4 @@
+import { SignUpService } from './../../services/sign-up.service';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -7,9 +8,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class SignUpComponent {
   signUpForm!: FormGroup;
+  spinner: boolean = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private signUpService: SignUpService) {}
+
+  ngOnInit(): void {
+    this.spinner = true;
+
     this.buildForms();
+
+    this.spinner = false;
   }
 
   buildForms() {
@@ -23,9 +31,13 @@ export class SignUpComponent {
 
   onFormSubmit() {
     if (this.signUpForm.valid) {
+      this.spinner = true;
+
       const formValue = this.signUpForm.value;
 
-      console.log(formValue);
+      this.signUpService.signUp(formValue).subscribe(() => {
+        console.log('Usuário cadastrado com sucesso!');
+      });
     }
   }
 }
