@@ -27,6 +27,11 @@ export class LoginComponent {
     });
   }
 
+  isFieldInvalid(field: string): boolean {
+    const control = this.loginForm.get(field);
+    return !!(control && control.touched && control.invalid);
+  }
+
   onFormSubmit() {
     if (!this.loginForm.valid) return;
   }
