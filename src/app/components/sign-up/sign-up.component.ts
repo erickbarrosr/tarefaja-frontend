@@ -1,6 +1,7 @@
 import { SignUpService } from './../../services/sign-up.service';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -10,7 +11,11 @@ export class SignUpComponent {
   signUpForm!: FormGroup;
   spinner: boolean = false;
 
-  constructor(private fb: FormBuilder, private signUpService: SignUpService) {}
+  constructor(
+    private fb: FormBuilder,
+    private signUpService: SignUpService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.spinner = true;
@@ -29,6 +34,12 @@ export class SignUpComponent {
     });
   }
 
+  isFieldInvalid(field: string): boolean {
+    const control = this.signUpForm.get(field);
+
+    return !!(control && control.touched && control.invalid);
+  }
+
   onFormSubmit() {
     if (this.signUpForm.valid) {
       this.spinner = true;
@@ -36,7 +47,7 @@ export class SignUpComponent {
       const formValue = this.signUpForm.value;
 
       this.signUpService.signUp(formValue).subscribe(() => {
-        console.log('Usuário cadastrado com sucesso!');
+        this.router.navigate(['/login']);
       });
     }
   }
