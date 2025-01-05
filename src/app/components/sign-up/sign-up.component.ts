@@ -2,6 +2,7 @@ import { SignUpService } from './../../services/sign-up.service';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sign-up',
@@ -14,7 +15,8 @@ export class SignUpComponent {
   constructor(
     private fb: FormBuilder,
     private signUpService: SignUpService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -28,6 +30,7 @@ export class SignUpComponent {
   buildForms() {
     this.signUpForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
+      userName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
@@ -40,15 +43,36 @@ export class SignUpComponent {
     return !!(control && control.touched && control.invalid);
   }
 
+  resetForm() {}
+
   onFormSubmit() {
-    if (this.signUpForm.valid) {
-      this.spinner = true;
+    if (this.signUpForm.invalid) return;
 
-      const formValue = this.signUpForm.value;
+    this.spinner = true;
 
-      this.signUpService.signUp(formValue).subscribe(() => {
+    this.signUpService.signUp(this.signUpForm.value).subscribe({
+      next: (response) => {
+        const message = response.message || 'Cadastro realizado com sucesso!';
+
+        this.toastr.success(message, 'Sucesso');
+
+        this.spinner = false;
+      },
+
+      error: (err) => {
+        const errorMessage =
+          err.error?.message || 'Ocorreu um erro inesperado!';
+
+        this.toastr.error(errorMessage, 'Erro');
+
+        this.spinner = false;
+      },
+
+      complete: () => {
+        this.signUpForm.reset();
+
         this.router.navigate(['/login']);
-      });
-    }
+      },
+    });
   }
 }
